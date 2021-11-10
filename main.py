@@ -7,6 +7,8 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 
 
+#alphabet
+# letters = ABCDEFGHIJKLMNOPQRSTUVWXYZ
 #essential colors
 root_bg = "#1C1C1C"
 enter_button_bg = "#1aeb8d"
@@ -64,23 +66,54 @@ def eq_enter_section():
     eq_input_box.grid(row=1, column=0)
     enter_button.grid(row=2, column=0, pady=10)
 
+# def convert(expression):
+#     final_expression = []
+#     string_expression = []
+
+#     for chars in expression:
+#         try:
+#             string_expression.append(int(chars))
+#         except:
+#             string_expression.append(str(chars))
+    
+#     print(string_expression)
 
 
+
+def evaluate_y(expression):
+    exp_string = expression
+    x = [-3,-2,-1,0,1,2,3]
+    y =[]
+    
+    if "x" in expression:
+        x_index = expression.index("x")
+        for nums in x:
+            num_expression_str = exp_string.replace("x", str(nums))
+            y_evaluation = eval(num_expression_str)
+            y.append(y_evaluation)
+    
+    return(y)
+            
+    
+    
 
 
 def graph():
 
-    equation = eq_input_box.get()
-    print(type(equation))
+    equation_string = eq_input_box.get()
+    y_values = evaluate_y(equation_string)
+
+    print(y_values)
+    print(type(y_values))
 
     #frame containing the graph
     graph_frame = create_frame(root, root_bg, column=1, rowspan=2)
 
     fig = Figure(figsize=(5,5), dpi=100)
     plot = fig.add_subplot(111)
-    x = np.linspace(-5,5, 100)
+    x = [-3,-2,-1,0,1,2,3]
 
-    plot.plot(x, 5*x+3, '-r',label="graph")
+    plot.plot(x, y_values)
     plot.grid()
     plot.axhline()
     plot.axvline()
